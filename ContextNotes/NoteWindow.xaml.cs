@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ContextNotes.Controls;
+using ContextNotes.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,39 +25,37 @@ namespace ContextNotes
         public NoteWindow()
         {
             InitializeComponent();
+
+            NotesListChanged += NoteWindow_NotesListChanged;
         }
 
-        object MovingObject = null;
-        double FirstXPos, FirstYPos;
-        double FirstArrowXPos, FirstArrowYPos;
-
-        private void Ellipse_MouseMove(object sender, MouseEventArgs e)
+        private static void NoteWindow_NotesListChanged(object sender, EventArgs e)
         {
-            if (e.LeftButton == MouseButtonState.Pressed &&
-                        sender == MovingObject)
+            NoteWindow self = sender as NoteWindow;
+            if (self == null) return;
+
+            var holder = self.notesHolder.Children;
+            holder.Clear();
+
+            var notesList = self.Notes;
+
+            foreach (var note in notesList)
             {
-                var control = sender as FrameworkElement;
-                var parent = control.Parent as FrameworkElement;
-
-                control.SetValue(Canvas.LeftProperty,
-                     e.GetPosition((Panel)(sender as FrameworkElement).Parent).X - FirstXPos - 25);
-
-                control.SetValue(Canvas.TopProperty,
-                     e.GetPosition((Panel)(sender as FrameworkElement).Parent).Y - FirstYPos - 25);
+                var control = new DragableControl();
+                control.Note = note;                
+                holder.Add(control);
             }
         }
 
-        private void Ellipse_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        public event EventHandler NotesListChanged;
+        private IEnumerable<Note> _notes;
+        public IEnumerable<Note> Notes 
         {
-            var control = sender as FrameworkElement;
-            FirstXPos = e.GetPosition(control).X;
-            FirstYPos = e.GetPosition(control).Y;
-            MovingObject = sender;
-        }
-
-        private void Ellipse_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            MovingObject = null;
-        }
+            get { return _notes; }
+            set {
+                _notes = value;
+                if (NotesListChanged != null) NotesListChanged(this, null);
+            }
+        }        
     }
 }

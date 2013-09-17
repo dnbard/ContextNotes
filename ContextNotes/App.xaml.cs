@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using ContextNotes;
 using Application = System.Windows.Application;
 using MessageBox = System.Windows.MessageBox;
+using ContextNotes.Model;
 
 namespace ContextNotes
 {
@@ -34,6 +35,11 @@ namespace ContextNotes
                     if (window == null)
                     {
                         window = new NoteWindow();
+
+                        var list = new List<Note>();
+                        list.Add(new Note { Text = "Sample header" });
+                        window.Notes = list;
+
                         window.Show();                        
                     }
                     else
@@ -42,8 +48,6 @@ namespace ContextNotes
                         window = null;
                     }
                 });
-            hotkeys.RegisterAction(ModifierKeys.Alt, Keys.S, (sender, args) => MessageBox.Show("s"));
-            
         }
     }
 }

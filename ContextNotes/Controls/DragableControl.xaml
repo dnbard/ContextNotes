@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="ContextNotes.Controls.DragableControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300" MouseMove="Ellipse_MouseMove" MouseLeftButtonDown="Ellipse_MouseLeftButtonDown" MouseLeftButtonUp="Ellipse_MouseLeftButtonUp"
+             MinWidth="100" MinHeight="58" Margin="15" 
+             >
+    <Border  Background="#FFFDFFCE" BorderBrush="#FF000000" BorderThickness="1,1,1,1" CornerRadius="10">
+        <Grid >
+            <TextBox Text="{Binding Source=Note, Path=Caption}" FontWeight="Bold" AcceptsReturn="False" IsHitTestVisible="True" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="5" Background="#FFFDFFCE" BorderThickness="0">
+                <TextBox.Style>
+                    <Style TargetType="TextBox">
+                        <Style.Triggers>
+                            <Trigger Property="IsFocused" Value="true">
+                                <Setter Property= "Foreground" Value="Red"/>                                
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
+            <TextBox Text="" Width="260"  HorizontalAlignment="Center" TextWrapping="Wrap" AcceptsReturn="True" VerticalAlignment="Top" Margin="15,35,15,15" Background="#FFFDFFCE" BorderThickness="0" >
+                <TextBox.Effect>
+                    <DropShadowEffect ShadowDepth="1" BlurRadius="10" Opacity="0.5"/>
+                </TextBox.Effect>
+                <TextBox.Style>
+                    <Style TargetType="TextBox">
+                        <Style.Triggers>
+                            <Trigger Property="IsFocused" Value="true">
+                                <Setter Property= "Foreground" Value="Red"/>
+                                <Setter Property= "Background" Value="Red"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
+        </Grid>
+    </Border>
+</UserControl>
