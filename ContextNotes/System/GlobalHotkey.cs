@@ -11,7 +11,7 @@ using Application = System.Windows.Application;
 
 namespace ContextNotes
 {
-    public class GlobalHotkey : NativeWindow
+    public class GlobalHotkey : NativeWindow, IDisposable
     {
         private int _currentId = 0;
 
@@ -38,11 +38,10 @@ namespace ContextNotes
             if (Actions.ContainsKey(keyComb))            
                 Actions[keyComb] = action;              
             else
-            {
-                _currentId++;
+            {                
                 Actions.Add(keyComb, action);
-                RegisterHotKey(this.Handle, _currentId, (uint)modifier, (uint)key);
-                keyComb.id = _currentId;
+                RegisterHotKey(this.Handle, _currentId, (uint)modifier, (uint)key);                
+                _currentId++;
             }
         }
 
@@ -65,14 +64,16 @@ namespace ContextNotes
                         Actions[keyComb](this, null);                    
                     
                     break;
-
-                case WM_DESTROY: // fires when "Application.Exit();" is called
-                    foreach (var action in Actions)
-                        UnregisterHotKey(this.Handle, action.Key.id);
-                    
-                    break;
             }
             base.WndProc(ref m);
+        }
+
+        public void Dispose()
+        {
+            for (int i = 0; i < _currentId; i ++ )
+                UnregisterHotKey(this.Handle, i);
+            
+            this.DestroyHandle();
         }
     }
 }

@@ -20,13 +20,28 @@ namespace ContextNotes
     {
         private TrayIcon icon;
         private GlobalHotkey hotkeys;
+
+        private NoteWindow window;
         
         public App()
             :base()        
         {
             icon = new TrayIcon();
             hotkeys = new GlobalHotkey();
-            hotkeys.RegisterAction(ModifierKeys.Alt, Keys.A, (sender, args) => MessageBox.Show("a"));
+            hotkeys.RegisterAction(ModifierKeys.Alt, Keys.A,
+                (sender, args) =>
+                {
+                    if (window == null)
+                    {
+                        window = new NoteWindow();
+                        window.Show();                        
+                    }
+                    else
+                    {
+                        window.Hide();                        
+                        window = null;
+                    }
+                });
             hotkeys.RegisterAction(ModifierKeys.Alt, Keys.S, (sender, args) => MessageBox.Show("s"));
             
         }

@@ -10,7 +10,6 @@ namespace ContextNotes
     struct KeyCombination
     {
         public ModifierKeys mod;
-        public Keys key;
-        public int id;
+        public Keys key;        
     }
 }
