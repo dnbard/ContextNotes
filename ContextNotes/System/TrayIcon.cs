@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,25 +11,30 @@ namespace ContextNotes
 {
     public class TrayIcon
     {
-        private static readonly TrayIcon _inst = new TrayIcon();
-        public static TrayIcon Instance
-        {
-            get { return _inst; }
-        }
-
-        private readonly NotifyIcon icon;
+        private readonly NotifyIcon icon = new NotifyIcon();
+        private string iconName = "cn.ico";
+        
         public string Text
         {
             get { return icon.Text; }
             set { icon.Text = value; }
+        }             
+
+        public TrayIcon()
+        {
+            Text = "Context Notes";         
+
+            CheckIcon(this);
+            if (!string.IsNullOrEmpty(iconName))
+                icon.Icon = new Icon(iconName);
+            icon.Visible = true;
+            
         }
 
-        private TrayIcon()
+        private static void CheckIcon(TrayIcon icon)
         {
-            icon = new NotifyIcon();
-            icon.Icon = new Icon("cn.ico");
-            icon.Visible = true;
-            icon.Text = "Context Notes";
+            if (!File.Exists(icon.iconName)) 
+                icon.iconName = "";
         }
     }
 }

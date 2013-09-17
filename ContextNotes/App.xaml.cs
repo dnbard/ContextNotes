@@ -18,13 +18,16 @@ namespace ContextNotes
     /// </summary>
     public partial class App : Application
     {
-        private TrayIcon Icon = TrayIcon.Instance;
+        private TrayIcon icon;
+        private GlobalHotkey hotkeys;
         
         public App()
-            :base()
+            :base()        
         {
-            GlobalHotkey hotkeys = new GlobalHotkey();
-            hotkeys.RegisterAction(Keys.Alt & Keys.A, (sender, args) => MessageBox.Show("a"));
+            icon = new TrayIcon();
+            hotkeys = new GlobalHotkey();
+            hotkeys.RegisterAction(ModifierKeys.Alt, Keys.A, (sender, args) => MessageBox.Show("a"));
+            hotkeys.RegisterAction(ModifierKeys.Alt, Keys.S, (sender, args) => MessageBox.Show("s"));
             
         }
     }

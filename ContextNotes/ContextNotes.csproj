@@ -56,6 +56,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="System\GlobalHotkey.cs" />
+    <Compile Include="System\KeyCombination.cs" />
+    <Compile Include="System\ModifierKeys.cs" />
     <Compile Include="System\TrayIcon.cs" />
     <Page Include="NoteWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
