@@ -68,7 +68,9 @@ namespace ContextNotes
         }
 
         private List<Note> FilterNotes(string term, List<Note> list)
-        {           
+        {
+            if (list == null) return new List<Note>();
+
             for (int i = 0; i < list.Count; i++)
             {
                 var item = list[i];
