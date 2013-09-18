@@ -122,6 +122,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Images\add-icon.png" />
     <Content Include="Images\close-icon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

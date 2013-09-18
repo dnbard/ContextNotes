@@ -24,6 +24,7 @@
     </Window.Triggers>
     <Grid Background="#55000000" >
         <custom:CustomButton Source="Images/close-icon.png" Margin="10" Behaviour="Exit"  HorizontalAlignment="Right" VerticalAlignment="Top" />
+        <custom:CustomButton Source="Images/add-icon.png" Margin="80, 10" Behaviour="Exit"  HorizontalAlignment="Right" VerticalAlignment="Top" />
         <Border Opacity="1">
             <Canvas Name="notesHolder">
                 <custom:DragableControl/>
