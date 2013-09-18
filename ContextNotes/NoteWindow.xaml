@@ -22,11 +22,12 @@
             <!--<BeginStoryboard Storyboard="{StaticResource WindowOn}"/>-->
         </EventTrigger>
     </Window.Triggers>
-    <Canvas Background="#55000000" >
+    <Grid Background="#55000000" >
+        <custom:CustomButton Source="Images/close-icon.png" Margin="10" Behaviour="Exit"  HorizontalAlignment="Right" VerticalAlignment="Top" />
         <Border Opacity="1">
             <Canvas Name="notesHolder">
                 <custom:DragableControl/>
             </Canvas>
         </Border>
-    </Canvas>
+    </Grid>
 </Window>

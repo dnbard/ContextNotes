@@ -54,10 +54,17 @@ namespace ContextNotes
             }
             else
             {
-                window.Hide();
-                JSONHelper.JsonSerialize<IEnumerable<Note>>(window.Notes, dataFileName);
-                window = null;
+                CloseNoteWindow();
             }
+        }
+
+        public void CloseNoteWindow()
+        {
+            if (window == null) return;
+
+            window.Hide();
+            JSONHelper.JsonSerialize<IEnumerable<Note>>(window.Notes, dataFileName);
+            window = null;
         }
 
         private List<Note> FilterNotes(string term, List<Note> list)
