@@ -71,7 +71,8 @@ namespace ContextNotes
             var holder = this.notesHolder.Children;
 
             var note = new Note();
-            this.Notes.Add(note);
+            note.Parent = this.Name;
+            this.Notes.Add(note);            
 
             var control = new DragableControl();
             SetOnCenter(note);
