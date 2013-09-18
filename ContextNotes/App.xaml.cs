@@ -11,6 +11,9 @@ using ContextNotes;
 using Application = System.Windows.Application;
 using MessageBox = System.Windows.MessageBox;
 using ContextNotes.Model;
+using System.IO;
+using System.Runtime.Serialization.Json;
+using ContextNotes.Serializer;
 
 namespace ContextNotes
 {
@@ -23,31 +26,57 @@ namespace ContextNotes
         private GlobalHotkey hotkeys;
 
         private NoteWindow window;
+
+        private static string dataFileName = "data.json";
         
         public App()
             :base()        
         {
             icon = new TrayIcon();
             hotkeys = new GlobalHotkey();
-            hotkeys.RegisterAction(ModifierKeys.Alt, Keys.A,
-                (sender, args) =>
+            
+            hotkeys.RegisterAction(ModifierKeys.Alt, Keys.A, ToggleWindowAction);                
+        }
+
+        private void ToggleWindowAction(object sender, EventArgs args)
+        {
+            if (window == null)
+            {
+                window = new NoteWindow();
+
+                var procName = ProcessInfo.GetActiveProcessName();
+                window.Name = procName;
+
+                var list = JSONHelper.JsonDeserialize<List<Note>>(dataFileName);
+                window.Notes = FilterNotes(procName, list);
+
+                window.Show();
+            }
+            else
+            {
+                window.Hide();
+                JSONHelper.JsonSerialize<IEnumerable<Note>>(window.Notes, dataFileName);
+                window = null;
+            }
+        }
+
+        private List<Note> FilterNotes(string term, List<Note> list)
+        {           
+            for (int i = 0; i < list.Count; i++)
+            {
+                var item = list[i];
+
+                //DEBUG
+                if (item.Parent == null) continue;
+
+                if (!item.Parent.Contains(term))
                 {
-                    if (window == null)
-                    {
-                        window = new NoteWindow();
+                    list.Remove(item);
+                    i--;
+                }
+            }
 
-                        var list = new List<Note>();
-                        list.Add(new Note { Text = "Sample header" });
-                        window.Notes = list;
-
-                        window.Show();                        
-                    }
-                    else
-                    {
-                        window.Hide();                        
-                        window = null;
-                    }
-                });
+            return list;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ContextNotes.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,11 +26,26 @@ namespace ContextNotes.Controls
 
         public DragableControl()
         {
-            InitializeComponent();
-            DataContext = this;
+            InitializeComponent();            
         }
 
-        public Model.Note Note { get; set; }
+        private Note _note = null;
+        public Note Note 
+        {
+            get { return _note; }
+            set
+            {
+                _note = value;
+                DataContext = value;
+                Init();
+            }
+        }
+
+        private void Init()
+        {
+            this.SetValue(Canvas.LeftProperty, Note.X);
+            this.SetValue(Canvas.TopProperty, Note.Y);
+        }
 
         private void Ellipse_MouseMove(object sender, MouseEventArgs e)
         {
@@ -40,8 +56,14 @@ namespace ContextNotes.Controls
                 var parent = control.Parent as FrameworkElement;
                 var position = e.GetPosition((Panel)(sender as FrameworkElement).Parent);
 
-                control.SetValue(Canvas.LeftProperty, position.X - FirstXPos - 25);
-                control.SetValue(Canvas.TopProperty, position.Y - FirstYPos - 25);
+                var x = position.X - FirstXPos - 25;
+                var y = position.Y - FirstYPos - 25;
+
+                control.SetValue(Canvas.LeftProperty, x);
+                control.SetValue(Canvas.TopProperty, y);
+
+                Note.X = x;
+                Note.Y = y;
             }
         }
 

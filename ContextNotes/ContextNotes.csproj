@@ -37,6 +37,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -59,9 +60,11 @@
       <DependentUpon>DragableControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\Note.cs" />
+    <Compile Include="Serializer\JSONHelper.cs" />
     <Compile Include="System\GlobalHotkey.cs" />
     <Compile Include="System\KeyCombination.cs" />
     <Compile Include="System\ModifierKeys.cs" />
+    <Compile Include="System\ProcessInfo.cs" />
     <Compile Include="System\TrayIcon.cs" />
     <Page Include="Controls\DragableControl.xaml">
       <SubType>Designer</SubType>

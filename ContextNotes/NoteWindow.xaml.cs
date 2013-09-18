@@ -29,6 +29,8 @@ namespace ContextNotes
             NotesListChanged += NoteWindow_NotesListChanged;
         }
 
+        public string Name { get; set; }
+
         private static void NoteWindow_NotesListChanged(object sender, EventArgs e)
         {
             NoteWindow self = sender as NoteWindow;
