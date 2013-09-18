@@ -22,7 +22,7 @@ namespace ContextNotes.Controls
     {
         public CustomButton()
         {
-            InitializeComponent();            
+            InitializeComponent();
         }
 
         public ImageSource Source
@@ -36,10 +36,13 @@ namespace ContextNotes.Controls
         private void mouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             if (string.IsNullOrEmpty(Behaviour)) return;
+            var Application = App.Current as App;
+            if (Application == null) return;
 
             switch (Behaviour)
             {
-                case "Exit": (App.Current as App).CloseNoteWindow(); break;
+                case "Exit": Application.CloseNoteWindow(); break;
+                case "Add": Application.Window.AddDefaultNote(); break;                
             }
         }
     }

@@ -48,14 +48,45 @@ namespace ContextNotes
         }
 
         public event EventHandler NotesListChanged;
-        private IEnumerable<Note> _notes;
-        public IEnumerable<Note> Notes 
+        private List<Note> _notes;
+        public List<Note> Notes 
         {
             get { return _notes; }
             set {
                 _notes = value;
                 if (NotesListChanged != null) NotesListChanged(this, null);
             }
-        }        
+        }
+
+        public void RemoveNote(DragableControl control)
+        {
+            var holder = this.notesHolder.Children;
+            holder.Remove(control);
+
+            this.Notes.Remove(control.Note);
+        }
+
+        public void AddDefaultNote()
+        {
+            var holder = this.notesHolder.Children;
+
+            var note = new Note();
+            this.Notes.Add(note);
+
+            var control = new DragableControl();
+            SetOnCenter(note);
+            control.Note = note;
+            holder.Add(control);
+            control.Focus();
+        }
+
+        private void SetOnCenter(Note note)
+        {
+            var width = this.Width;
+            var height = this.Height;
+
+            note.X = width * 0.5 - 150;
+            note.Y = height * 0.5 - 250;
+        }
     }
 }

@@ -80,5 +80,10 @@ namespace ContextNotes.Controls
         {
             MovingObject = null;
         }
+
+        private void CustomButton_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            (App.Current as App).Window.RemoveNote(this);
+        }
     }
 }

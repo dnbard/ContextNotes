@@ -25,7 +25,7 @@ namespace ContextNotes
         private TrayIcon icon;
         private GlobalHotkey hotkeys;
 
-        private NoteWindow window;
+        public NoteWindow Window;
 
         private static string dataFileName = "data.json";
         
@@ -40,17 +40,17 @@ namespace ContextNotes
 
         private void ToggleWindowAction(object sender, EventArgs args)
         {
-            if (window == null)
+            if (Window == null)
             {
-                window = new NoteWindow();
+                Window = new NoteWindow();
 
                 var procName = ProcessInfo.GetActiveProcessName();
-                window.Name = procName;
+                Window.Name = procName;
 
                 var list = JSONHelper.JsonDeserialize<List<Note>>(dataFileName);
-                window.Notes = FilterNotes(procName, list);
+                Window.Notes = FilterNotes(procName, list);
 
-                window.Show();
+                Window.Show();
             }
             else
             {
@@ -60,11 +60,11 @@ namespace ContextNotes
 
         public void CloseNoteWindow()
         {
-            if (window == null) return;
+            if (Window == null) return;
 
-            window.Hide();
-            JSONHelper.JsonSerialize<IEnumerable<Note>>(window.Notes, dataFileName);
-            window = null;
+            Window.Hide();
+            JSONHelper.JsonSerialize<IEnumerable<Note>>(Window.Notes, dataFileName);
+            Window = null;
         }
 
         private List<Note> FilterNotes(string term, List<Note> list)

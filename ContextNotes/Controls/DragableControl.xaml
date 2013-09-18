@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:custom="clr-namespace:ContextNotes.Controls"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300" MouseMove="Ellipse_MouseMove" MouseLeftButtonDown="Ellipse_MouseLeftButtonDown" MouseLeftButtonUp="Ellipse_MouseLeftButtonUp"
              MinWidth="100" MinHeight="58" Margin="15" 
@@ -10,8 +11,18 @@
     <UserControl.Effect>
         <DropShadowEffect BlurRadius="10" Opacity="0.5"/>
     </UserControl.Effect>
-    <Border  Background="#FFFDFFCE" BorderBrush="#FF000000" BorderThickness="1,1,1,1" CornerRadius="10">
-        <Grid >
+    <Border Background="#FFFDFFCE" BorderBrush="#FF000000" BorderThickness="1,1,1,1" CornerRadius="10">
+        <Grid>
+            <custom:CustomButton Source="../Images/close-icon.png" RenderTransformOrigin="0.10,0.10" Margin="-25, 0" MouseLeftButtonUp="CustomButton_MouseLeftButtonUp">
+                <custom:CustomButton.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </custom:CustomButton.RenderTransform>
+            </custom:CustomButton>
             <TextBox Text="{Binding Caption, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" FontWeight="Bold" AcceptsReturn="False" IsHitTestVisible="True" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="5" Background="#FFFDFFCE" BorderThickness="0">
                 <TextBox.Style>
                     <Style TargetType="TextBox">
@@ -23,7 +34,7 @@
                     </Style>
                 </TextBox.Style>
             </TextBox>
-            <TextBox Text="{Binding Text, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" MaxHeight="300" Width="260"  HorizontalAlignment="Center" TextWrapping="Wrap" AcceptsReturn="True" VerticalAlignment="Top" Margin="15,35,15,15" Background="#FFFCFDEC" BorderThickness="0" TextAlignment="Justify" VerticalScrollBarVisibility="Auto">
+            <TextBox Text="{Binding Text, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" MaxHeight="300" Width="260"  HorizontalAlignment="Center" TextWrapping="Wrap" AcceptsReturn="True" VerticalAlignment="Top" Margin="15,45,15,15" Background="#FFFCFDEC" BorderThickness="0" TextAlignment="Justify" VerticalScrollBarVisibility="Auto">
                 <TextBox.Effect>
                     <DropShadowEffect ShadowDepth="1" BlurRadius="10" Opacity="0.5"/>
                 </TextBox.Effect>
@@ -87,7 +98,7 @@
                                             <Setter TargetName="Thumb" Property="Visibility" Value="Collapsed" />
                                         </Trigger>
                                         <Trigger Property="Orientation" Value="Horizontal">
-                                            
+
                                             <Setter Property="Width" Value="Auto" />
                                             <Setter Property="Height" Value="12" />
                                             <Setter TargetName="Thumb" Property="Tag" Value="Horizontal" />
