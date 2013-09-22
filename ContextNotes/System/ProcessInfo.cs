@@ -27,13 +27,14 @@ namespace ContextNotes
             return FilterProccesName(p.ProcessName);
         }
 
-        private static string[] stopWords = { "ContextNotes" };
+        private static string DefaultProcessName = "<default>";
+        private static string[] stopWords = { "ContextNotes", "Idle" };
         private static string FilterProccesName(string name)
         {
-            if (string.IsNullOrEmpty(name)) return "";
+            if (string.IsNullOrEmpty(name)) return DefaultProcessName;
 
-            foreach (var word in stopWords)            
-                if (name.Contains(word)) return "";
+            foreach (var word in stopWords)
+                if (name.Contains(word)) return DefaultProcessName;
             return name;
         }
     }

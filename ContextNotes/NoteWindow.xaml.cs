@@ -1,4 +1,5 @@
-﻿using ContextNotes.Controls;
+﻿using System.Collections.ObjectModel;
+using ContextNotes.Controls;
 using ContextNotes.Model;
 using System;
 using System.Collections.Generic;
@@ -25,26 +26,58 @@ namespace ContextNotes
         public NoteWindow()
         {
             InitializeComponent();
+            DataContext = this;
 
             NotesListChanged += NoteWindow_NotesListChanged;
-        }        
+        }       
+ 
+        public new string Name
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(base.Name)) return "<default>";
+                return base.Name;
+            }
+            set
+            {
+                base.Name = value;
+                if (NotesListChanged != null) NotesListChanged(this, null);
+            }
+        }
 
-        private static void NoteWindow_NotesListChanged(object sender, EventArgs e)
+        private readonly ObservableCollection<string> otherTerms = new ObservableCollection<string>();
+        public ObservableCollection<string> OtherTerms
+        {
+            get { return otherTerms; }
+        }
+
+        private void NoteWindow_NotesListChanged(object sender, EventArgs e)
         {
             NoteWindow self = sender as NoteWindow;
             if (self == null) return;
 
             var holder = self.notesHolder.Children;
             holder.Clear();
+            self.otherTerms.Clear();
 
             var notesList = self.Notes;
+            if (notesList == null || notesList.Count == 0) return;
+            var term = self.Name;
 
             foreach (var note in notesList)
             {
+                if (!note.Parent.Contains(term))
+                {
+                    if (!self.otherTerms.Contains(note.Parent))
+                        self.otherTerms.Add(note.Parent);
+                    continue;
+                }
                 var control = new DragableControl();
                 control.Note = note;                
                 holder.Add(control);
             }
+
+            TermsContextMenu.GetBindingExpression(ContextMenu.ItemsSourceProperty).UpdateTarget();
         }
 
         public event EventHandler NotesListChanged;
@@ -88,6 +121,23 @@ namespace ContextNotes
 
             note.X = width * 0.5 - 150;
             note.Y = height * 0.5 - 250;
+        }
+
+        private void ChangeTerm(object sender, RoutedEventArgs e)
+        {
+            var self = sender as MenuItem;
+            if (self == null) return;
+
+            var newTerm = self.Header as String;
+            if (string.IsNullOrEmpty(newTerm)) return;
+
+            this.Name = newTerm;
+        }
+
+        private void ShowContextMenu(object sender, MouseButtonEventArgs e)
+        {
+            TermsContextMenu.PlacementTarget = this;
+            TermsContextMenu.IsOpen = true;
         }
     }
 }
